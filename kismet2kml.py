@@ -64,10 +64,14 @@ def main():
         # Skip if the network is not an AP
         if not 'infrastructure' in wn.values():
             continue
-        bssid = wn.find("BSSID").text
-        ssid  = wn.find("SSID").find("essid").text or "Hidden SSID"
-        manu  = wn.find("manuf").text
-        enc   = [enc_e.text for enc_e in wn.find("SSID").findall("encryption")]
+        try:
+            bssid = wn.find("BSSID").text
+            ssid  = wn.find("SSID").find("essid").text or "Hidden SSID"
+            manu  = wn.find("manuf").text
+            enc   = [enc_e.text for enc_e in wn.find("SSID").findall("encryption")]
+        
+        except Exception as e:
+            print(e)
 
         if args.remove_hidden and ssid == "Hidden SSID":
             continue
